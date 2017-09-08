@@ -4,7 +4,7 @@ pipeline {
     stage('Build') {
       steps {
         sh 'mvn clean source:jar package'
-        input 'This is a very long message to simulate a very long message. Long it is.'
+        input 'This is a very long message to simulate a very long message. Long it is, isn't it.'
       }
     }
     stage('Browser Tests') {
