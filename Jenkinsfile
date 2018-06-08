@@ -1,65 +1,45 @@
 pipeline {
   agent any
   stages {
-    stage('Build') {
+    stage('first-solo') {
       steps {
-        sh 'mvn clean source:jar package'
+        sh 'echo \'dummy text\''
       }
     }
-    stage('Browser Tests') {
-      parallel {
-        stage('Firefox') {
-          steps {
-            sh 'echo \'setting up selenium environment\''
-            sh 'ping -c 5 localhost'
-          }
+    stage('parent') {
+        parallel {
+            stage('single-stage') {
+              steps {
+                sh 'echo \'dummy text\''
+              }
+            }
+            
+            stage('multiple-stages') {
+                stages {
+                    stage('first-sequential-stage') {
+                      steps {
+                        sh 'echo \'dummy text\''
+                      }
+                    }
+                    stage('second-sequential-stage') {
+                      steps {
+                        sh 'echo \'dummy text\''
+                      }
+                    }
+                }
+            }
+
+            stage('other-single-stage') {
+              steps {
+                sh 'echo \'dummy text\''
+              }
+            }
         }
-        stage('Safari') {
-          steps {
-            sh 'echo \'setting up selenium environment\''
-            sh 'ping -c 8 localhost'
-          }
-        }
-        stage('Chrome') {
-          steps {
-            sh 'echo \'setting up selenium environment\''
-            sh 'ping -c 3 localhost'
-          }
-        }
-        stage('Internet Explorer') {
-          steps {
-            sh 'echo \'setting up selenium environment\''
-            sh 'ping -c 4 localhost'
-          }
-        }
-      }
     }
-    stage('Static Analysis') {
+    stage('second-solo') {
       steps {
-        sh 'mvn findbugs:findbugs'
+        sh 'echo \'dummy text\''
       }
     }
-    stage('Deploy') {
-      parallel {
-        stage('Deploy') {
-          steps {
-            sh 'mvn source:jar package -Dmaven.test.skip'
-          }
-        }
-        stage('final') {
-          steps {
-            echo 'fdsf223'
-          }
-        }
-      }
-    }
-  }
-  post {
-    always {
-      junit '**/target/surefire-reports/TEST-*.xml'
-      archive '**/target/*.jar'
-
-    }
-
   }
 }
