@@ -6,6 +6,12 @@ pipeline {
         sh 'mvn clean source:jar package'
       }
     }
+    stage('Some Tests') {
+      steps {
+        sh 'echo \'testing some things\''
+        sh 'ping -c 5 localhost'
+      }
+    }
     stage('Browser Tests') {
       parallel {
         stage('Firefox') {
@@ -32,6 +38,12 @@ pipeline {
             sh 'ping -c 4 localhost'
           }
         }
+      }
+    }
+    stage('Testings Some Other Things') {
+      steps {
+        sh 'echo \'testing some things\''
+        sh 'ping -c 5 localhost'
       }
     }
     stage('Static Analysis') {
