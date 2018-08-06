@@ -14,18 +14,16 @@ pipeline {
               }
             }
             
-            stage('multiple-stages') {
-                stages {
-                    stage('first-sequential-stage') {
-                      steps {
-                        sh 'echo \'dummy text\''
-                      }
-                    }
-                    stage('second-sequential-stage') {
-                      steps {
-                        sh 'echo \'dummy text\''
-                      }
-                    }
+            stages {
+                stage('first-sequential-stage') {
+                  steps {
+                    sh 'echo \'dummy text\''
+                  }
+                }
+                stage('second-sequential-stage') {
+                  steps {
+                    sh 'echo \'dummy text\''
+                  }
                 }
             }
 
