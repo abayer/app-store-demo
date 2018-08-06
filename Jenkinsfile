@@ -1,38 +1,45 @@
 pipeline {
-    agent any
-    stages {
-        stage("build and deploy") {
-            parallel {
-                stage("first") {
-                    stages {
-                        stage("build") {
-                            steps {
-                                sh 'echo \'dummy text\''
-                            }
-                        }
-                        stage("deploy") {
-                            steps {
-                                sh 'echo \'dummy text\''
-                            }
-                        }
+  agent any
+  stages {
+    stage('first-solo') {
+      steps {
+        sh 'echo \'dummy text\''
+      }
+    }
+    stage('parent') {
+        parallel {
+            stage('single-stage') {
+              steps {
+                sh 'echo \'dummy text\''
+              }
+            }
+            
+            stage('multiple-stages') {
+                stages {
+                    stage('first-sequential-stage') {
+                      steps {
+                        sh 'echo \'dummy text\''
+                      }
                     }
-                }
-
-                stage("second") {
-                    stages {
-                        stage("build") {
-                            steps {
-                                sh 'echo \'dummy text\''
-                            }
-                        }
-                        stage("deploy") {
-                             steps {
-                                sh 'echo \'dummy text\''
-                            }
-                        }
+                    stage('second-sequential-stage') {
+                      steps {
+                        sh 'echo \'dummy text\''
+                      }
                     }
                 }
             }
+
+            stage('other-single-stage') {
+              steps {
+                sh 'echo \'dummy text\''
+              }
+            }
         }
     }
+    stage('second-solo') {
+      steps {
+        sh 'echo \'dummy text\''
+      }
+    }
+  }
 }
