@@ -32,6 +32,10 @@ pipeline {
                       }
                     }
                 }
+              post {
+                success {
+                  echo "This should show up in third-sequential-stage's list of steps"
+                }
             }
 
             stage('other-single-stage') {
